@@ -12,34 +12,35 @@ Rename files based on a list you provide (like a bunch of videos that you want t
 const fs = require("fs");
 const glob = require("glob");
 const Rx = require("rxjs");
-const operators = require("rxjs/operators");
-
-const newNamesFile = "new_names.txt";
-const fileType = "PNG";
-
+const { map, mergeMap } = require("rxjs/operators");
 const readFileAsObservable$ = Rx.bindNodeCallback(fs.readFile);
 const listDirectoryAsObservable$ = Rx.bindNodeCallback(glob);
 const renameFileAsObservable$ = Rx.bindNodeCallback(fs.rename);
-
+// list of new names and type of files
+const newNamesFile = "new_names.txt";
+const fileType = "PNG";
+// methods
+const splitTextToNames = (text) => text.split("\r\n");
+const nameGenerator = (name, index) => `${index}_${name}.${fileType}`;
+const observer = {
+  next: (_) => console.log(`${_.old_name} --> ${_.new_name}`),
+  error: (err) => console.log(err),
+  complete: () => console.log("Finished."),
+};
+//observables
 const newNames$ = readFileAsObservable$(newNamesFile, "utf8").pipe(
-  operators.mergeMap((_) => _.split("\r\n")),
-  operators.map((_, index) => `${index}_${_}.${fileType}`)
+  mergeMap(splitTextToNames),
+  map(nameGenerator)
 );
-
 const currentFilesNames$ = listDirectoryAsObservable$(`*.${fileType}`).pipe(
-  operators.mergeMap((_) => Rx.from(_))
+  mergeMap(Rx.from)
 );
-Rx.zip(currentFilesNames$, newNames$)
-  .pipe(
-    operators.tap((name_pair) => {
-      const [old_name, new_name] = name_pair;
-      renameFileAsObservable$(old_name, new_name).subscribe();
-    })
-  )
-  .subscribe({
-    next: (_) => console.log(`${_[0]} --> ${_[1]}`),
-    error: Rx.noop,
-    complete: () => console.log("Finished."),
-  });
+const renameFile = (names_pair) => {
+  const [old_name, new_name] = names_pair;
+  renameFileAsObservable$(old_name, new_name).subscribe();
+  return { old_name, new_name };
+};
+
+Rx.zip(currentFilesNames$, newNames$).pipe(map(renameFile)).subscribe(observer); 
 </pre>
 

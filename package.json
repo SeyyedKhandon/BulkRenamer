@@ -12,5 +12,8 @@
   "devDependencies": {
     "fs": "0.0.1-security",
     "glob": "^7.1.6"
+  },
+  "dependencies": {
+    "rxjs": "^6.5.5"
   }
 }

@@ -7,7 +7,8 @@ Rename files based on a list you provide (like a bunch of videos that you want t
  * ISC license 
  * Note: your new_names.txt must have new names based on the same naming order as your'e files are in the directory. then after make sure it satisfy the condition, set the correct file type 
  * to run this, first "npm i", then "node renamer.js"
-
+ 
+this is a stand-alone package which you can download and use it.
 
 <pre>
 const fs = require("fs");

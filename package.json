@@ -2,16 +2,41 @@
   "name": "renamer_tool",
   "version": "1.0.0",
   "description": "",
-  "main": "renamer.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "rename": "node renamer.js"
-  },
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "author": "SeyyedMahdi Hassanpour",
   "license": "ISC",
+  "keywords": [
+    "Rename",
+    "Files"
+  ],
+  "scripts": {
+    "test": "jest --config jestconfig.json",
+    "rename": "node index.js",
+    "build": "tsc",
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "lint": "tslint -p tsconfig.json",
+    "prepare": "npm run build"
+  },
+  "files": [
+    "lib/**/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SeyyedKhandon/RenamerTool.git"
+  },
+  "homepage": "https://github.com/SeyyedKhandon/RenamerTool.git",
   "devDependencies": {
+    "@types/jest": "^25.2.1",
+    "@types/node": "^13.13.4",
     "fs": "0.0.1-security",
-    "glob": "^7.1.6"
+    "glob": "^7.1.6",
+    "jest": "^25.5.3",
+    "prettier": "^2.0.5",
+    "ts-jest": "^25.4.0",
+    "tslint": "^6.1.2",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.8.3"
   },
   "dependencies": {
     "rxjs": "^6.5.5"

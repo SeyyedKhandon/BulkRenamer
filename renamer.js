@@ -1,5 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * SeyyedMahdi hassanpour
  * Seyyedkhandon@gmail.com
@@ -9,30 +8,27 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * set the currect file type
  */
 var fs = require('fs');
-var glob = require('glob');
-var Rx = require('rxjs');
-var _a = require('rxjs/operators'), map = _a.map, mergeMap = _a.mergeMap;
-var readFile$ = Rx.bindNodeCallback(fs.readFile);
-var listDirectory$ = Rx.bindNodeCallback(glob);
-var renameFile$ = Rx.bindNodeCallback(fs.rename);
 // list of new names and type of files
 var listOfNewNames = 'new_names.txt';
-var fileType = 'PNG';
-// methods
-exports.extractNames = function (text) { return text.split('\r\n'); };
-exports.nameGenerator = function (name, index) { return index + "_" + name + "." + fileType; };
-var observer = {
-    next: function (_) { return console.log(_.old_name + " --> " + _.new_name); },
-    error: function (err) { return console.log(err); },
-    complete: function () { return console.log('Finished.'); },
-};
-//observables
-var newNames$ = readFile$(listOfNewNames, 'utf8').pipe(mergeMap(exports.extractNames), map(exports.nameGenerator));
-var oldNames$ = listDirectory$("*." + fileType).pipe(mergeMap(Rx.from));
-var renameFile = function (names_pair) {
-    var old_name = names_pair[0], new_name = names_pair[1];
-    renameFile$(old_name, new_name).subscribe();
-    return { old_name: old_name, new_name: new_name };
-};
-// run
-Rx.zip(oldNames$, newNames$).pipe(map(renameFile)).subscribe(observer);
+var fileType = 'webm';
+var oldNames = [...Array(59).keys()].map(i => "lesson" + (i + 1) + ".webm");
+function safeName(text) {
+    return text.replace(/[^\w\s]/gi, '')
+}
+fs.readFile(listOfNewNames, "utf8", function (err, content) {
+    if (err) throw err;
+    //read new names which is splited by "enter" in the file
+    const new_names = content
+        .split("\r\n")
+        .map((new_name, index) => `lesson.${index + 1}_${safeName(new_name)}.${fileType}`);
+
+    //read all file names which we want to change
+    oldNames.forEach((old_file_name, index) => {
+        // change file name
+        fs.rename(old_file_name, new_names[index], function (err) {
+            if (err) console.log("ERROR: " + err);
+            console.log(`${old_file_name} --> ${new_names[index]}`);
+            if (index === new_names.length - 1) console.log("Finished.");
+        });
+    });
+});

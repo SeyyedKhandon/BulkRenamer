@@ -1,8 +1,9 @@
 {
-  "name": "renamer_tool",
+  "name": "bulk_renamer",
   "version": "1.1.0",
   "description": "Bulk Renamer - Tool",
   "main": "lib/index.js",
+  "bin": "./lib/index.js",
   "types": "lib/index.d.ts",
   "author": "SeyyedMahdi Hassanpour",
   "license": "ISC",
@@ -16,7 +17,8 @@
     "build": "tsc",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "tslint -p tsconfig.json",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "pkg": "pkg ."
   },
   "repository": {
     "type": "git",
@@ -33,9 +35,14 @@
     "ts-jest": "^25.4.0",
     "tslint": "^6.1.2",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "pkg": "^5.8.0"
   },
   "dependencies": {
     "rxjs": "^6.5.5"
+  },
+  "pkg": {
+    "entry": "./lib/index.js",
+    "outputPath": "dist"
   }
 }

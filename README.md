@@ -1,9 +1,9 @@
 # Bulk Renamer
 
-Rename files based on a list you provide like a bunch of videos that you want to change all of them to a new list based on table of contents. Assume we have these files which are ordered but dont have a proper names associated with them:
-<img src="./ordered.jpg"/>
+Rename files based on a list you provide, such as a list of videos you want to rename based on the table of contents. Here are some files which are ordered but do not have proper names:
+<img src="./ordered.jpg" alt="original files"/>
 
-And you have a text file `names.txt` which has their names in order:
+They are listed in order in a text file named `names.txt`:
 
 ```
 luffy
@@ -12,19 +12,21 @@ sanji
 sanji
 ```
 
-This tool will give you these episodic names:
+The tool will provide you with these episodic names:
 
-<img src="./ordered-named.jpg"/>
+<img src="./ordered-named.jpg" alt="the output of bulk renamer"/>
 
 ## Warning
 
-- First test this app with some dummy files and if it worked for you then use on main files
-- before start this app, make sure to have a backup
-- this app will rename the original files
+- You should test this app with some dummy files first, and then use it on your real files if it works
+- Make sure you have a backup before you start the app
+- This app renames the original files
 
 ## How to Use
 
-- First make sure to have a `names.txt` list provided with the same order as the files
-- Download the latest version and put it beside the files then run it!
+- Make sure you have a 'names.txt' list with the same order as the files
+- Download the latest version and place it beside your files.
 
-- Note: your `names.txt` must have new names based on the same naming order as your'e files are in the directory.
+**Please note**: names.txt must have new names that follow the naming order of the files in the directory.
+
+<img src="./howto.jpg" alt="how to use bulkRenamer"/>

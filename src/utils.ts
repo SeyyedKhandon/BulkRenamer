@@ -136,6 +136,5 @@ export async function bulkRenamer(fileType = 'mp4', directory = './') {
   if (oldNames.length === 0) return console.log('There is no file to rename');
   const newNames = await readNewNamesFromFile(directory + 'names.txt');
   const episodicNames = makeEpisodicSafeNames(newNames, fileType);
-  console.log(oldNames, newNames, episodicNames);
   return renameFiles(oldNames, episodicNames, directory);
 }

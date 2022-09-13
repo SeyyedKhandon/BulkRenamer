@@ -1,5 +1,21 @@
-// import { extractNames } from '../index';
-it('extractNames', async () => {
-  const file = 'luffy\r\nace';
-  // expect(extractNames(file)).toBe(['luffy', 'ace']);
+import {
+  cleanDirectory,
+  copyAssets,
+  readReleatedFiles,
+  bulkRenamer,
+} from '../utils';
+const fileType = 'PNG';
+const path = './src/__tests__/';
+
+it('bulk rename', async () => {
+  await cleanDirectory(fileType, path);
+  await copyAssets(fileType, path + 'assets/', path);
+  await bulkRenamer(fileType, path);
+
+  expect(readReleatedFiles(fileType, path)).toEqual([
+    'ep.1_luffy.PNG',
+    'ep.2_zoro.PNG',
+    'ep.3_sanji.PNG',
+    'ep.4_sanji.PNG',
+  ]);
 });
